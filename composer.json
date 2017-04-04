@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "src",
+      "Bootstrap\\" : "bootstrap"
+    }
+  },
+
+  "require": {
+    "symfony/var-dumper": "^3.2"
+  }
+}
