@@ -31,8 +31,7 @@ class Database
 
         $statement = $this->pdo->prepare($query);
 
-        $statement->execute($data);
-
-        return true;
+        return $statement->execute($data);
     }
+
 }

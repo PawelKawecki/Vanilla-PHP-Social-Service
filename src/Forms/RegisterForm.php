@@ -2,57 +2,24 @@
 
 namespace App\Forms;
 
-use App;
-
 class RegisterForm extends Form
 {
-    private $database;
 
     private $table = 'users';
 
-    public function __construct()
-    {
-        $this->database = App::get('db');
-    }
-
     public function process($data)
     {
-        if (!isset($data['username']) || strlen(trim($data['username'])) < 1 ) {
-            throw new \InvalidArgumentException('username is not valid');
-        }
+        $this->data = $data;
 
-        if (!isset($data['email']) || strlen(trim($data['email'])) < 1 ) {
-            throw new \InvalidArgumentException('email is not valid');
-        }
+        $this->validateInput('username', 2);
+        $this->validateInput('email', 6);
+        $this->validateInput('password', 6);
 
-//        $this->validateInput($data['password']);
+        $this->sanitizeForm();
 
-        $data = $this->sanitizeForm($data);
+        $this->encryptPassword();
 
-        $data = $this->encryptPassword($data);
-
-        $this->database->insert($this->table, $data);
-    }
-
-    private function sanitizeForm($data)
-    {
-        unset($data['submit']);
-
-        return $data;
-    }
-
-    private function encryptPassword($data)
-    {
-        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-        return $data;
-    }
-
-    protected function validateInput($input, $length = 1)
-    {
-        if (!isset($data['password']) || strlen(trim($data['password'])) < $length) {
-            throw new \InvalidArgumentException('password is not valid');
-        }
+        $this->queryBuilder->insert($this->table, $this->data);
     }
 
 
