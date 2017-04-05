@@ -1,34 +1,45 @@
 <?php
 
-//use App\Exceptions\ServiceNotFoundException;
+use App\Exceptions\ServiceAlreadyExistsException;
+use App\Exceptions\ServiceNotFoundException;
 
 class App
 {
 
-    private $container;
+    private static $container = [];
 
     /**
-     * App constructor.
-     * 
-     * @param $container
+     * Registers service into container and bind with given key
+     *
+     * @param string $key
+     * @param $service
+     *
+     * @throws ServiceAlreadyExistsException
      */
-    public function __construct($container = [])
+    public static function bind(string $key, $service)
     {
-        $this->container = $container;
-    }
-
-    public function register($service)
-    {
-        $this->container[] = $service;
-    }
-
-    public function make($service)
-    {
-        if (in_array($service, $this->container)) {
-            return $service;
+        if (array_key_exists($key, self::$container)) {
+            throw new ServiceAlreadyExistsException();
         }
 
-//        throw new \App\Exceptions\ServiceNotFoundException();
+        self::$container[$key] = $service;
+    }
+
+    /**
+     * Gets instance of service by given key
+     *
+     * @param string $key
+     *
+     * @return mixed
+     * @throws ServiceNotFoundException
+     */
+    public static function get(string $key)
+    {
+        if (array_key_exists($key, self::$container)) {
+            return self::$container[$key];
+        }
+
+        throw new ServiceNotFoundException();
     }
 
 }

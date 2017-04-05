@@ -15,21 +15,24 @@ class Database
         $this->pdo = $pdo ;
     }
 
+    /**
+     * Insert data into given table
+     *
+     * @param string $table
+     * @param array $data
+     *
+     * @return bool
+     */
     public function insert(string $table, array $data)
     {
-        $values = implode(', ', $data);
+        $keys = "null, :" . implode(', :', array_keys($data));
 
-        $query = "INSERT INTO $table VALUES (username, password, email)";
-        dump($query);
+        $query = "INSERT INTO $table VALUES ($keys);";
 
         $statement = $this->pdo->prepare($query);
-        dump($statement);
 
-        $statement->execute();
+        $statement->execute($data);
 
-        $result = $statement->fetchAll();
-        dump($result);
-
-        return $result;
+        return true;
     }
 }
