@@ -1,11 +1,28 @@
+<?php
+
+require __DIR__ . '/../bootstrap/index.php';
+
+?>
+
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="public/app.css">
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h2 class="text-center">Welcome</h2>
-    </div>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="public/app.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= url(); ?>">Main Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= url('register.php'); ?>">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= url('login.php'); ?>">Login</a>
+                </li>
+            </ul>
