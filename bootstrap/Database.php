@@ -29,9 +29,32 @@ class Database
 
         $query = "INSERT INTO $table VALUES ($keys);";
 
+        dump($query);
+
         $statement = $this->pdo->prepare($query);
 
         return $statement->execute($data);
     }
 
+    /**
+     * Select data from given table
+     *
+     * @param string $table
+     * @param array $columns
+     * @param string $where
+     *
+     * @return mixed
+     */
+    public function select(string $table, array $columns = [], string $where = '1 = 1')
+    {
+        $columnsNames = empty($columns) ? '*' : implode(', ', $columns);
+
+        $query = "SELECT $columnsNames FROM $table WHERE $where";
+
+        $statement = $this->pdo->prepare($query);
+
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_CLASS);
+    }
 }
