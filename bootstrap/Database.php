@@ -30,6 +30,8 @@ class Database
         $query = "INSERT INTO $table VALUES ($keys);";
 
         dump($query);
+        //TODO ERROR HERE
+        //ZAPIS DO BAZY NIE DZIALA POPRAWNIE
 
         $statement = $this->pdo->prepare($query);
 
