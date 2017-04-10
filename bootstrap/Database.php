@@ -25,13 +25,10 @@ class Database
      */
     public function insert(string $table, array $data)
     {
-        $keys = "null, :" . implode(', :', array_keys($data));
+        $keys = implode(', ', array_keys($data));
+        $binds = ':' . implode(', :', array_keys($data));
 
-        $query = "INSERT INTO $table VALUES ($keys);";
-
-        dump($query);
-        //TODO ERROR HERE
-        //ZAPIS DO BAZY NIE DZIALA POPRAWNIE
+        $query = "INSERT INTO $table ($keys) VALUES ($binds);";
 
         $statement = $this->pdo->prepare($query);
 
