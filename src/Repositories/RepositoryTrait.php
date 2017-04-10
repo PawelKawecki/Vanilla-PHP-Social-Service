@@ -20,7 +20,7 @@ trait RepositoryTrait
     }
 
     /**
-     * Gets all users from repository
+     * Gets all resources from database
      *
      * @return mixed
      */
@@ -30,32 +30,34 @@ trait RepositoryTrait
     }
 
     /**
-     * Get user by given id
+     * Get resource by given id
      *
      * @param int $id
+     * @param array $columns
      *
      * @return mixed
      */
-    public function getById(int $id)
+    public function getById(int $id, array $columns = [])
     {
-        return $this->queryBuilder->select($this->table, [], "id = $id");
+        return $this->queryBuilder->select($this->table, $columns, "id = $id");
     }
 
     /**
-     * Get user by given attribute
+     * Get resource by given attribute
      *
      * @param string $attribute
      * @param string $value
+     * @param array $columns
      *
      * @return mixed
      */
-    public function getByAttribute(string $attribute, string $value)
+    public function getByAttribute(string $attribute, string $value, array $columns = [])
     {
-        return $this->queryBuilder->select($this->table, [], "$attribute = '$value'");
+        return $this->queryBuilder->select($this->table, $columns, "$attribute = '$value'");
     }
 
     /**
-     * Save user to repository
+     * Save resource to database
      *
      * @param array $data
      *
@@ -65,6 +67,5 @@ trait RepositoryTrait
     {
         return $this->queryBuilder->insert($this->table, $data);
     }
-
 
 }
