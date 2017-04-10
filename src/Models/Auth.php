@@ -18,6 +18,14 @@ class Auth
         static::$repository = \App::get('userRepository');
     }
 
+    /**
+     * Registers user into database.
+     *
+     * @param array $data
+     *
+     * @return mixed
+     * @throws UserAlreadyExistsException
+     */
     public static function register(array $data)
     {
         static::init();
@@ -31,6 +39,14 @@ class Auth
         return static::$repository->save($data);
     }
 
+    /**
+     * Login user into application.
+     *
+     * @param array $data
+     *
+     * @throws UserNotFoundException
+     * @throws \Exception
+     */
     public static function login(array $data)
     {
         static::init();
@@ -48,11 +64,16 @@ class Auth
             throw new \Exception('Password does not match');
         }
 
-        static::createSession($user, $data);
+        static::createSession($user);
 
     }
 
-    private static function createSession($user, array $data)
+    /**
+     * Create database session with token and sets cookie.
+     *
+     * @param \stdClass $user
+     */
+    private static function createSession(\stdClass $user)
     {
         $cryptoStrong = true;
 
@@ -65,12 +86,30 @@ class Auth
             'token'     => sha1($token)
         ]);
 
-        setcookie('SNID', $token, time() + 60 * 60 * 24 * 7, '/', null, null, true);
+        self::setTokenCookie($token);
     }
 
-    private static function verifyPassword($password, $password1)
+    /**
+     * Determines if two given passwords are equal
+     *
+     * @param string $password
+     * @param string $password1
+     *
+     * @return bool
+     */
+    private static function verifyPassword(string $password, string $password1)
     {
         return password_verify($password, $password1);
+    }
+
+    /**
+     * Creates cookie and sets a user token
+     *
+     * @param string $token
+     */
+    private static function setTokenCookie(string $token): void
+    {
+        setcookie('SNID', $token, time() + 60 * 60 * 24 * 7, '/', null, null, true);
     }
 
 }
