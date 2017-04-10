@@ -26,8 +26,6 @@ use App\Repositories\UserRepository;
 if (isset($_POST['submit'])) {
     $form = new LoginForm(new UserRepository());
 
-    dump('poszlo');
-
     try {
         $form->process($_POST);
     } catch (InvalidArgumentException $e) {

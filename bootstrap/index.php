@@ -12,6 +12,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 App::bind('db', new Database($pdo));
 
-
+App::bind('userRepository', new \App\Repositories\UserRepository());
+App::bind('userTokenRepository', new \App\Repositories\UserTokenRepository());
 
 

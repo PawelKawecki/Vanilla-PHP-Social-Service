@@ -2,17 +2,10 @@
 
 namespace App\Forms;
 
-use App\Exceptions\UserAlreadyExistsException;
-use App\Repositories\Repository;
+use App\Models\Auth;
 
 class RegisterForm extends Form
 {
-    private $repository;
-
-    public function __construct(Repository $repository)
-    {
-        $this->repository = $repository;
-    }
 
     public function process($data)
     {
@@ -26,13 +19,7 @@ class RegisterForm extends Form
 
         $this->encryptPassword();
 
-        $user = $this->repository->getByAttribute('username', $this->data['username']);
-
-        if (!empty($user)) {
-            throw new UserAlreadyExistsException('User Already Exists');
-        }
-
-        return $this->repository->save($this->data);
+        Auth::register($this->data);
     }
 
 

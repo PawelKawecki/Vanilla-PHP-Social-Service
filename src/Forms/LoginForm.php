@@ -5,6 +5,7 @@ namespace App\Forms;
 
 
 use App\Exceptions\UserNotFoundException;
+use App\Models\Auth;
 use App\Repositories\Repository;
 
 class LoginForm extends Form
@@ -26,30 +27,9 @@ class LoginForm extends Form
 
         $this->sanitizeForm();
 
-        $this->encryptPassword();
-
-        $userCollection = $this->repository->getByAttribute('username', $this->data['username']);
-
-        if (empty($userCollection)) {
-            throw new UserNotFoundException('User not found');
-        }
-
-        $user = $userCollection[0];
-
-        dump($user);
-
-        if (!$this->verifyPassword($this->data['password'], $user->password)) {
-            throw new \Exception('Password does not match');
-        }
+        Auth::login($this->data);
 
 
     }
-
-    private function verifyPassword($password, $password1)
-    {
-        dump($password, $password1, password_verify($password, $password1));
-        return password_verify($password, $password1);
-    }
-
 
 }

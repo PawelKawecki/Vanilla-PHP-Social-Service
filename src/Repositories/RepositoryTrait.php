@@ -5,8 +5,6 @@ namespace App\Repositories;
 trait RepositoryTrait
 {
 
-    protected $table;
-
     protected $queryBuilder;
 
     /**
