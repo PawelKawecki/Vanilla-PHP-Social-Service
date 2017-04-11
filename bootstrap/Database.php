@@ -58,7 +58,7 @@ class Database
     }
 
     /**
-     * Joins two tables
+     * Joins two tables.
      *
      * @param string $table
      * @param string $table2
@@ -79,5 +79,23 @@ class Database
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_CLASS);
+    }
+
+
+    /**
+     * Deletes record from table.
+     *
+     * @param string $table
+     * @param string $where
+     *
+     * @return bool
+     */
+    public function delete(string $table, string $where)
+    {
+        $query = "DELETE FROM $table WHERE $where;";
+
+        $statement = $this->pdo->prepare($query);
+
+        return $statement->execute();
     }
 }

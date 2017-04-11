@@ -4,11 +4,20 @@ namespace App\Models;
 
 use App\Exceptions\UserAlreadyExistsException;
 use App\Exceptions\UserNotFoundException;
+use App\Repositories\UserRepository;
+use App\Repositories\UserTokenRepository;
 
 class Auth
 {
 
+    /**
+     * @var UserRepository $userRepository
+     */
     private static $userRepository;
+
+    /**
+     * @var UserTokenRepository $userTokenRepository
+     */
     private static $userTokenRepository;
 
     /**
@@ -17,7 +26,6 @@ class Auth
     public static function init()
     {
         static::$userRepository = \App::get('userRepository');
-
         static::$userTokenRepository = \App::get('userTokenRepository');
     }
 
@@ -67,6 +75,10 @@ class Auth
             throw new \Exception('Password does not match');
         }
 
+        if (Auth::check()) {
+            throw new \Exception('User already logged in');
+        }
+
         static::createSession($user);
 
     }
@@ -87,7 +99,7 @@ class Auth
             'token'     => sha1($token)
         ]);
 
-        self::setTokenCookie($token);
+        self::setTokenCookie($token, time() + 60 * 60 * 24 * 7);
     }
 
     /**
@@ -132,6 +144,31 @@ class Auth
         return $userCollection[0];
     }
 
+    /**
+     * Logout user from one or every device.
+     *
+     * @param array $data
+     *
+     * @throws \Exception
+     */
+    public static function logout(array $data)
+    {
+        static::init();
+
+        if (is_null($user = Auth::user())) {
+            throw new \Exception('User already logged out');
+        }
+
+        if (isset($data['allDevices'])) {
+            static::$userTokenRepository->deleteWhere("user_id = {$user->id}");
+        } else {
+            if (isset($_COOKIE['SNID'])) {
+                static::$userTokenRepository->deleteWhere("token = '" . sha1($_COOKIE['SNID']) . "'");
+            }
+        }
+
+        static::setTokenCookie('1', time() - 100);
+    }
 
     /**
      * Determines if two given passwords are equal
@@ -150,10 +187,11 @@ class Auth
      * Creates cookie and sets a user token
      *
      * @param string $token
+     * @param integer $time
      */
-    private static function setTokenCookie(string $token)
+    private static function setTokenCookie(string $token, int $time)
     {
-        setcookie('SNID', $token, time() + 60 * 60 * 24 * 7, '/', null, null, true);
+        setcookie('SNID', $token, $time, '/', null, null, true);
     }
 
 }

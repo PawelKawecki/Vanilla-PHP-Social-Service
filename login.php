@@ -2,6 +2,10 @@
 
 require __DIR__ . '/bootstrap/index.php';
 
+if (\App\Models\Auth::check()) {
+    redirect('index.php');
+}
+
 use App\Forms\LoginForm;
 
 if (isset($_POST['submit'])) {

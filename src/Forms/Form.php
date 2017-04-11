@@ -2,20 +2,20 @@
 
 namespace App\Forms;
 
-use App;
-
 abstract class Form
 {
-    protected $queryBuilder;
 
     protected $data;
 
     protected $whitelist;
 
-    public function __construct()
-    {
-        $this->queryBuilder = App::get('db');
-    }
+
+    /**
+     * Process Form.
+     *
+     * @param array $data
+     */
+    abstract public function process(array $data);
 
     /**
      * Sanitize from malicious data sent via form

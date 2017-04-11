@@ -7,7 +7,12 @@ use App\Models\Auth;
 class RegisterForm extends Form
 {
 
-    public function process($data)
+    /**
+     * Process Register form.
+     *
+     * @param array $data
+     */
+    public function process(array $data)
     {
         $this->data = $data;
 

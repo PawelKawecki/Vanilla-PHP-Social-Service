@@ -81,6 +81,30 @@ trait RepositoryTrait
     }
 
     /**
+     * Deletes record from database by given id.
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete(int $id)
+    {
+        return $this->queryBuilder->delete($this->table, "id = $id");
+    }
+
+    /**
+     * Deletes record from database by given attribute.
+     *
+     * @param string $attribute
+     *
+     * @return bool
+     */
+    public function deleteWhere(string $attribute)
+    {
+        return $this->queryBuilder->delete($this->table, $attribute);
+    }
+
+    /**
      * Returns database name.
      *
      * @return string

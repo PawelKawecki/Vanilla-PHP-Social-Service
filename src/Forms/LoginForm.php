@@ -8,7 +8,12 @@ use App\Models\Auth;
 class LoginForm extends Form
 {
 
-    public function process($data)
+    /**
+     * Process Login form.
+     *
+     * @param array $data
+     */
+    public function process(array $data)
     {
         $this->data = $data;
 
@@ -18,7 +23,6 @@ class LoginForm extends Form
         $this->sanitizeForm();
 
         Auth::login($this->data);
-
     }
 
 }

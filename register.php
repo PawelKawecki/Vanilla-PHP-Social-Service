@@ -1,4 +1,5 @@
 <?php require "bootstrap/index.php"; ?>
+<?php if (\App\Models\Auth::check()) redirect('index.php'); ?>
 <?php require "resources/header.phtml"; ?>
 
     <div class="row">
