@@ -71,12 +71,13 @@ trait RepositoryTrait
      *
      * @param string $table
      * @param string $on
+     * @param array $columns
      *
      * @return mixed
      */
-    public function join(string $table, string $on)
+    public function join(string $table, string $on, array $columns = [])
     {
-        return $this->queryBuilder->join($this->table, $table, $on);
+        return $this->queryBuilder->join($this->table, $table, $on, $columns);
     }
 
     /**

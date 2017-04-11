@@ -97,7 +97,13 @@ class Auth
      */
     public static function check()
     {
+        static::init();
+
         if (!isset($_COOKIE['SNID'])) {
+            return false;
+        }
+
+        if (empty(static::$userTokenRepository->getByAttribute('token', sha1($_COOKIE['SNID'])))) {
             return false;
         }
 
@@ -117,7 +123,7 @@ class Auth
             return null;
         }
 
-        $userCollection = static::$userRepository->join(static::$userTokenRepository->getTable(), 'users.id = user_tokens.user_id');
+        $userCollection = static::$userRepository->join(static::$userTokenRepository->getTable(), 'users.id = user_tokens.user_id', ['users.*', 'user_tokens.token']);
 
         if (empty($userCollection)) {
             return null;
@@ -144,7 +150,6 @@ class Auth
      * Creates cookie and sets a user token
      *
      * @param string $token
-     * @todo Looks like it does not work :(
      */
     private static function setTokenCookie(string $token)
     {

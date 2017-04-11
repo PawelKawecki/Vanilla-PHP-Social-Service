@@ -13,10 +13,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= url(); ?>">Main Page</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= url('register.php'); ?>">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= url('login.php'); ?>">Login</a>
-                </li>
+                <?php if (!\App\Models\Auth::check()) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= url('register.php'); ?>">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= url('login.php'); ?>">Login</a>
+                    </li>
+                <?php endif; ?>
+                <?php if (\App\Models\Auth::check()) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= url('logout.php'); ?>">Logout</a>
+                    </li>
+                    <li class="nav-item pull-right">
+                        <a><?= \App\Models\Auth::user()->username ?></a>
+                    </li>
+                <?php endif; ?>
             </ul>
