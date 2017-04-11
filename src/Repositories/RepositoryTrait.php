@@ -18,7 +18,7 @@ trait RepositoryTrait
     }
 
     /**
-     * Gets all resources from database
+     * Gets all resources from database.
      *
      * @return mixed
      */
@@ -28,7 +28,7 @@ trait RepositoryTrait
     }
 
     /**
-     * Get resource by given id
+     * Get resource by given id.
      *
      * @param int $id
      * @param array $columns
@@ -41,7 +41,7 @@ trait RepositoryTrait
     }
 
     /**
-     * Get resource by given attribute
+     * Get resource by given attribute.
      *
      * @param string $attribute
      * @param string $value
@@ -55,7 +55,7 @@ trait RepositoryTrait
     }
 
     /**
-     * Save resource to database
+     * Save resource to database.
      *
      * @param array $data
      *
@@ -64,6 +64,29 @@ trait RepositoryTrait
     public function save(array $data)
     {
         return $this->queryBuilder->insert($this->table, $data);
+    }
+
+    /**
+     * Joins two table by inner join.
+     *
+     * @param string $table
+     * @param string $on
+     *
+     * @return mixed
+     */
+    public function join(string $table, string $on)
+    {
+        return $this->queryBuilder->join($this->table, $table, $on);
+    }
+
+    /**
+     * Returns database name.
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        return $this->table;
     }
 
 }

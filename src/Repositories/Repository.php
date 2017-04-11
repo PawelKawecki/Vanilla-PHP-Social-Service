@@ -11,4 +11,6 @@ interface Repository
     public function save(array $data);
 
     public function getByAttribute(string $attribute, string $value);
+
+    public function join(string $table, string $on);
 }

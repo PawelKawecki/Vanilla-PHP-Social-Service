@@ -56,4 +56,28 @@ class Database
 
         return $statement->fetchAll(PDO::FETCH_CLASS);
     }
+
+    /**
+     * Joins two tables
+     *
+     * @param string $table
+     * @param string $table2
+     * @param array $columns
+     * @param string $on
+     * @param string $where
+     *
+     * @return mixed
+     */
+    public function join(string $table, string $table2, string $on, array $columns = [], string $where = '1 = 1')
+    {
+        $columnsNames = empty($columns) ? '*' : implode(', ', $columns);
+
+        $query = "SELECT $columnsNames FROM $table INNER JOIN $table2 ON $on WHERE $where";
+
+        $statement = $this->pdo->prepare($query);
+
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_CLASS);
+    }
 }

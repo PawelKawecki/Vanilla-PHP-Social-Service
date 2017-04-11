@@ -16,3 +16,5 @@ App::bind('userRepository', new \App\Repositories\UserRepository());
 App::bind('userTokenRepository', new \App\Repositories\UserTokenRepository());
 
 
+dump(\App\Models\Auth::check());
+dump(\App\Models\Auth::user());

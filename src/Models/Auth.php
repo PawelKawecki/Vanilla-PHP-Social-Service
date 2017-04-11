@@ -103,7 +103,30 @@ class Auth
 
         return true;
     }
-    
+
+    /**
+     * Returns logged user or null if user is not logged in.
+     *
+     * @return null|\stdClass $user
+     */
+    public static function user()
+    {
+        static::init();
+
+        if (!isset($_COOKIE['SNID'])) {
+            return null;
+        }
+
+        $userCollection = static::$userRepository->join(static::$userTokenRepository->getTable(), 'users.id = user_tokens.user_id');
+
+        if (empty($userCollection)) {
+            return null;
+        }
+
+        return $userCollection[0];
+    }
+
+
     /**
      * Determines if two given passwords are equal
      *
