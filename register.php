@@ -1,4 +1,4 @@
-
+<?php require "bootstrap/index.php"; ?>
 <?php require "resources/header.phtml"; ?>
 
     <div class="row">

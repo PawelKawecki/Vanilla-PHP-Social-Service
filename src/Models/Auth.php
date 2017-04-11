@@ -8,14 +8,17 @@ use App\Exceptions\UserNotFoundException;
 class Auth
 {
 
-    private static $repository;
+    private static $userRepository;
+    private static $userTokenRepository;
 
     /**
      * Auth initial function.
      */
     public static function init()
     {
-        static::$repository = \App::get('userRepository');
+        static::$userRepository = \App::get('userRepository');
+
+        static::$userTokenRepository = \App::get('userTokenRepository');
     }
 
     /**
@@ -30,13 +33,13 @@ class Auth
     {
         static::init();
 
-        $user = static::$repository->getByAttribute('username', $data['username']);
+        $user = static::$userRepository->getByAttribute('username', $data['username']);
 
         if (!empty($user)) {
             throw new UserAlreadyExistsException('User Already Exists');
         }
 
-        return static::$repository->save($data);
+        return static::$userRepository->save($data);
     }
 
     /**
@@ -51,7 +54,7 @@ class Auth
     {
         static::init();
 
-        $userCollection = static::$repository->getByAttribute('username', $data['username']);
+        $userCollection = static::$userRepository->getByAttribute('username', $data['username']);
 
         if (empty($userCollection)) {
             throw new UserNotFoundException('User not found');
@@ -79,9 +82,7 @@ class Auth
 
         $token = bin2hex(openssl_random_pseudo_bytes(64, $cryptoStrong));
 
-        $userTokenRepository = \App::get('userTokenRepository');
-
-        $userTokenRepository->save([
+        static::$userTokenRepository->save([
             'user_id'   => $user->id,
             'token'     => sha1($token)
         ]);
@@ -89,6 +90,20 @@ class Auth
         self::setTokenCookie($token);
     }
 
+    /**
+     * Checks if user is logged in.
+     *
+     * @return bool
+     */
+    public static function check()
+    {
+        if (!isset($_COOKIE['SNID'])) {
+            return false;
+        }
+
+        return true;
+    }
+    
     /**
      * Determines if two given passwords are equal
      *
@@ -106,8 +121,9 @@ class Auth
      * Creates cookie and sets a user token
      *
      * @param string $token
+     * @todo Looks like it does not work :(
      */
-    private static function setTokenCookie(string $token): void
+    private static function setTokenCookie(string $token)
     {
         setcookie('SNID', $token, time() + 60 * 60 * 24 * 7, '/', null, null, true);
     }

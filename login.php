@@ -1,3 +1,24 @@
+<?php
+
+require __DIR__ . '/bootstrap/index.php';
+
+use App\Forms\LoginForm;
+
+if (isset($_POST['submit'])) {
+    $form = new LoginForm();
+
+
+    try {
+        $form->process($_POST);
+    } catch (InvalidArgumentException $e) {
+        dump($e);
+    } catch (\App\Exceptions\UserAlreadyExistsException $e) {
+        dump($e->getMessage());
+    }
+}
+
+?>
+
 <?php require "resources/header.phtml"; ?>
 
 <div class="row">
@@ -17,23 +38,3 @@
 </div>
 
 <?php require "resources/footer.phtml"; ?>
-
-<?php
-
-use App\Forms\LoginForm;
-use App\Repositories\UserRepository;
-
-if (isset($_POST['submit'])) {
-    $form = new LoginForm(new UserRepository());
-
-    try {
-        $form->process($_POST);
-    } catch (InvalidArgumentException $e) {
-        dump($e);
-    } catch (\App\Exceptions\UserAlreadyExistsException $e) {
-        dump($e->getMessage());
-    }
-}
-
-
-?>
