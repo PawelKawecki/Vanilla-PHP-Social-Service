@@ -17,4 +17,6 @@ interface Repository
     public function delete(int $id);
 
     public function deleteWhere(string $attribute);
+
+    public function update(array $data, string $where);
 }

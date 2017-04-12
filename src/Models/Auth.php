@@ -73,7 +73,7 @@ class Auth
         //Gets the first user from Collection returned by database
         $user = $userCollection[0];
 
-        if (!static::verifyPassword($data['password'], $user->password)) {
+        if (!User::verifyPassword($data['password'], $user->password)) {
             throw new \Exception('Password does not match');
         }
 
@@ -176,19 +176,6 @@ class Auth
         static::setTokenCookie('1', time() - 100);
 
         return true;
-    }
-
-    /**
-     * Determines if two given passwords are equal
-     *
-     * @param string $password
-     * @param string $password1
-     *
-     * @return bool
-     */
-    private static function verifyPassword(string $password, string $password1)
-    {
-        return password_verify($password, $password1);
     }
 
     /**

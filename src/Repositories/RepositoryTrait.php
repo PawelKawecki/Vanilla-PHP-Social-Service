@@ -114,4 +114,10 @@ trait RepositoryTrait
         return $this->table;
     }
 
+    public function update(array $data, string $where)
+    {
+        return $this->queryBuilder->update($this->table, $data, $where);
+    }
+
+
 }
