@@ -2,6 +2,8 @@
 
 namespace App\Forms;
 
+use App\Models\Message;
+
 abstract class Form
 {
 
@@ -11,6 +13,13 @@ abstract class Form
 
     protected $message;
 
+    /**
+     * Form constructor.
+     */
+    public function __construct()
+    {
+        $this->message = new Message($this);
+    }
     /**
      * Process Form.
      *

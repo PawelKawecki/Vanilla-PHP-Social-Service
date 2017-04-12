@@ -4,18 +4,9 @@
 namespace App\Forms;
 
 use App\Models\Auth;
-use App\Models\Message;
 
 class LoginForm extends Form
 {
-
-    /**
-     * Form constructor.
-     */
-    public function __construct()
-    {
-        $this->message = new Message($this);
-    }
 
     /**
      * Process Login form.
