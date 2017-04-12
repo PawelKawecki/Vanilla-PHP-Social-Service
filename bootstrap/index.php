@@ -15,6 +15,8 @@ App::bind('db', new Database($pdo));
 App::bind('userRepository', new \App\Repositories\UserRepository());
 App::bind('userTokenRepository', new \App\Repositories\UserTokenRepository());
 
+//App::bind('message', new \App\Models\Message());
+
 //\App\Models\Auth::login(['username' => 'Mateuszku', 'password' => 'qweqwe']);
 //\App\Models\Auth::logout([]);
 

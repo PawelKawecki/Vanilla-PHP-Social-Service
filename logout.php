@@ -12,13 +12,14 @@ if (isset($_POST['submit'])) {
 
     try {
         $form->process($_POST);
+
+        $result = $form->getMessage();
     } catch (InvalidArgumentException $e) {
-        dump($e);
+        $error = $e->getMessage();
     }
 }
 
 ?>
-
 <?php require "resources/header.phtml"; ?>
 
 <div class="row">

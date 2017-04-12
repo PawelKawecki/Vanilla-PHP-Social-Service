@@ -57,6 +57,8 @@ class Auth
      *
      * @throws UserNotFoundException
      * @throws \Exception
+     *
+     * @return bool
      */
     public static function login(array $data)
     {
@@ -81,6 +83,7 @@ class Auth
 
         static::createSession($user);
 
+        return true;
     }
 
     /**
@@ -95,8 +98,8 @@ class Auth
         $token = bin2hex(openssl_random_pseudo_bytes(64, $cryptoStrong));
 
         static::$userTokenRepository->save([
-            'user_id'   => $user->id,
-            'token'     => sha1($token)
+            'user_id' => $user->id,
+            'token'   => sha1($token),
         ]);
 
         self::setTokenCookie($token, time() + 60 * 60 * 24 * 7);
@@ -135,7 +138,8 @@ class Auth
             return null;
         }
 
-        $userCollection = static::$userRepository->join(static::$userTokenRepository->getTable(), 'users.id = user_tokens.user_id', ['users.*', 'user_tokens.token']);
+        $userCollection = static::$userRepository->join(static::$userTokenRepository->getTable(),
+            'users.id = user_tokens.user_id', ['users.*', 'user_tokens.token']);
 
         if (empty($userCollection)) {
             return null;
@@ -150,6 +154,8 @@ class Auth
      * @param array $data
      *
      * @throws \Exception
+     *
+     * @return bool
      */
     public static function logout(array $data)
     {
@@ -168,6 +174,8 @@ class Auth
         }
 
         static::setTokenCookie('1', time() - 100);
+
+        return true;
     }
 
     /**

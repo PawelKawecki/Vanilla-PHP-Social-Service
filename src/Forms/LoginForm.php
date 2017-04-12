@@ -4,14 +4,25 @@
 namespace App\Forms;
 
 use App\Models\Auth;
+use App\Models\Message;
 
 class LoginForm extends Form
 {
 
     /**
+     * Form constructor.
+     */
+    public function __construct()
+    {
+        $this->message = new Message($this);
+    }
+
+    /**
      * Process Login form.
      *
      * @param array $data
+     *
+     * @return bool
      */
     public function process(array $data)
     {
@@ -22,7 +33,7 @@ class LoginForm extends Form
 
         $this->sanitizeForm();
 
-        Auth::login($this->data);
+        return Auth::login($this->data);
     }
 
 }

@@ -9,6 +9,7 @@ abstract class Form
 
     protected $whitelist;
 
+    protected $message;
 
     /**
      * Process Form.
@@ -16,6 +17,14 @@ abstract class Form
      * @param array $data
      */
     abstract public function process(array $data);
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message . "";
+    }
 
     /**
      * Sanitize from malicious data sent via form
@@ -46,8 +55,9 @@ abstract class Form
      *
      * @param string $name
      * @param int $length
+     * @param bool $whitelist
      */
-    protected function validateInput(string $name, $length = 1)
+    protected function validateInput(string $name, $length = 1, $whitelist = true)
     {
         if (!isset($this->data[$name])) {
             throw new \InvalidArgumentException("field $name does not exist");
@@ -55,7 +65,24 @@ abstract class Form
             throw new \InvalidArgumentException("$name should contain at least $length characters");
         }
 
-        $this->addToWhitelist($name);
+        if ($whitelist) {
+            $this->addToWhitelist($name);
+        }
+    }
+
+    /**
+     * Checks if given password and password confirmation are the same.
+     *
+     * @param $password
+     * @param $passwordConfirmation
+     *
+     * @return bool
+     */
+    protected function checkPasswords($password, $passwordConfirmation)
+    {
+        if ($password != $passwordConfirmation) {
+            throw new \InvalidArgumentException("password and password confirmation are not equal");
+        }
     }
 
     /**

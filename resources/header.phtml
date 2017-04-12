@@ -9,24 +9,42 @@
     </head>
     <body>
         <div class="container">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= url(); ?>">Main Page</a>
-                </li>
-                <?php if (!\App\Models\Auth::check()) : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= url('register.php'); ?>">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= url('login.php'); ?>">Login</a>
-                    </li>
-                <?php endif; ?>
-                <?php if (\App\Models\Auth::check()) : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= url('logout.php'); ?>">Logout</a>
-                    </li>
-                    <li class="nav-item pull-right">
-                        <a><?= \App\Models\Auth::user()->username ?></a>
-                    </li>
-                <?php endif; ?>
-            </ul>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= url(); ?>">Main Page</a>
+                        </li>
+                        <?php if (!\App\Models\Auth::check()) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= url('register.php'); ?>">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= url('login.php'); ?>">Login</a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (\App\Models\Auth::check()) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= url('logout.php'); ?>">Logout</a>
+                            </li>
+                            <li class="nav-item pull-right">
+                                <a><?= \App\Models\Auth::user()->username ?></a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+            <?php if (isset($result) && $result): ?>
+                <div class="row spacing">
+                    <div class="col-md-12 alert alert-success">
+                        <?= $result ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($error) && $error): ?>
+                <div class="row spacing">
+                    <div class="col-md-12 alert alert-danger">
+                        <?= $error; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
