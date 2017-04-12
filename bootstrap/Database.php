@@ -98,4 +98,28 @@ class Database
 
         return $statement->execute();
     }
+
+    /**
+     * Updates record in table.
+     *
+     * @param string $table
+     * @param array $data
+     * @param string $where
+     *
+     * @return bool
+     */
+    public function update(string $table, array $data, string $where)
+    {
+        array_walk($data, function (&$v, $k) {
+            $v = "$k = '$v'";
+        });
+
+        $values = implode(',', $data);
+
+        $query = "UPDATE $table SET $values WHERE $where;";
+
+        $statement = $this->pdo->prepare($query);
+
+        return $statement->execute();
+    }
 }
