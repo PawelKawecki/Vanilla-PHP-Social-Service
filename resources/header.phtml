@@ -25,6 +25,9 @@
                         <?php endif; ?>
                         <?php if (\App\Models\Auth::check()) : ?>
                             <li class="nav-item">
+                                <a class="nav-link" href="<?= url('password-change.php'); ?>">Change Password</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="<?= url('logout.php'); ?>">Logout</a>
                             </li>
                             <li class="nav-item pull-right">

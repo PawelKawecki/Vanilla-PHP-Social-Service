@@ -32,7 +32,7 @@ abstract class Form
      */
     public function getMessage()
     {
-        return $this->message . "";
+        return (string)$this->message;
     }
 
     /**
