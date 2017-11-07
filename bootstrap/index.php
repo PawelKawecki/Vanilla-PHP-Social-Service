@@ -6,7 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/App.php';
 require __DIR__ . '/Database.php';
 
-$pdo = new PDO('mysql:host=localhost;dbname=social_media;charset=utf8', 'root', 'root');
+$pdo = new PDO('mysql:host=' . getenv('DB_HOST') . ':' . getenv('DB_PORT') .';dbname=' . getenv('DB_NAME') . ';charset=utf8', getenv('DB_USER'), getenv('DB_PASS'));
 
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

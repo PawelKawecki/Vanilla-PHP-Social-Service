@@ -4,7 +4,8 @@ function url(string $path = '')
 {
     $url = explode('/', $_SERVER['REQUEST_URI']);
 
-    $url = "/$url[1]/$path";
+//    $url = "/$url[1]/$path";
+    $url = "/$path";
 
     return $url;
 }

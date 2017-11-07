@@ -1,0 +1,36 @@
+version: '2'
+services:
+
+  web:
+    build:
+      context: ./
+      dockerfile: web.docker
+    volumes:
+      - ./:/var/www
+    ports:
+      - "9797:80"
+    links:
+      - app
+
+  app:
+    build:
+      context: ./
+      dockerfile: app.docker
+    volumes:
+      - ./:/var/www
+    links:
+      - database
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=database"
+      - "DB_USER=root"
+      - "DB_PASS=secret"
+      - "DB_NAME=social_media"
+
+  database:
+    image: mysql:5.6
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=social_media"
+    ports:
+      - "33061:3306"
