@@ -27,5 +27,7 @@ class PasswordChangeForm extends Form
         $this->encryptPassword();
 
         User::update($this->data);
+
+        redirect('index');
     }
 }

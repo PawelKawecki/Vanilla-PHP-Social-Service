@@ -22,7 +22,9 @@ class LogoutForm extends Form
 
         $this->sanitizeForm();
 
-        return Auth::logout($this->data);
+        Auth::logout($this->data);
+
+        redirect('index');
     }
 
 

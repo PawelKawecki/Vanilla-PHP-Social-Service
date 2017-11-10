@@ -1,28 +1,9 @@
-<?php require "bootstrap/index.php"; ?>
 <?php
 
 if (\App\Models\Auth::check()) {
-    redirect('index.php');
+    redirect('index');
 }
 
-use App\Exceptions\UserNotFoundException;
-use App\Forms\LoginForm;
-
-if (isset($_POST['submit'])) {
-    $form = new LoginForm();
-
-    try {
-        $form->process($_POST);
-
-        $result = $form->getMessage();
-    } catch (InvalidArgumentException $e) {
-        $error = $e->getMessage();
-    } catch (UserNotFoundException $e) {
-        $error = $e->getMessage();
-    } catch (Exception $e) {
-        $error = $e->getMessage();
-    }
-}
 
 ?>
 <?php require "resources/header.phtml"; ?>

@@ -29,7 +29,9 @@ class RegisterForm extends Form
 
         $this->encryptPassword();
 
-        return Auth::register($this->data);
+        Auth::register($this->data);
+
+        redirect('index');
     }
 
 

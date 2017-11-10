@@ -1,23 +1,5 @@
-<?php require "bootstrap/index.php"; ?>
-<?php if (!\App\Models\Auth::check()) redirect('index.php'); ?>
-<?php
+<?php if (!\App\Models\Auth::check()) redirect('index'); ?>
 
-use App\Forms\PasswordChangeForm;
-
-if (isset($_POST['submit'])) {
-    $form = new PasswordChangeForm();
-    try {
-        $form->process($_POST);
-
-        $result = $form->getMessage();
-    } catch (InvalidArgumentException $e) {
-        $error = $e->getMessage();
-    } catch (Exception $e) {
-        $error = $e->getMessage();
-    }
-}
-
-?>
 <?php require "resources/header.phtml"; ?>
 
 <div class="row">

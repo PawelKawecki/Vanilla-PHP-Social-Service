@@ -1,23 +1,5 @@
-<?php require "bootstrap/index.php"; ?>
-<?php if (\App\Models\Auth::check()) redirect('index.php'); ?>
-<?php
+<?php if (\App\Models\Auth::check()) redirect('index'); ?>
 
-use App\Forms\RegisterForm;
-
-if (isset($_POST['submit'])) {
-    $form = new RegisterForm();
-    try {
-        $form->process($_POST);
-
-        $result = $form->getMessage();
-    } catch (InvalidArgumentException $e) {
-        $error = $e->getMessage();
-    } catch (\App\Exceptions\UserAlreadyExistsException $e) {
-        $error = $e->getMessage();
-    }
-}
-
-?>
 <?php require "resources/header.phtml"; ?>
 
     <div class="row">

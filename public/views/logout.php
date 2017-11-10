@@ -1,22 +1,7 @@
-<?php require "bootstrap/index.php"; ?>
 <?php
 
 if (!\App\Models\Auth::check()) {
-    redirect('index.php');
-}
-
-use App\Forms\LogoutForm;
-
-if (isset($_POST['submit'])) {
-    $form = new LogoutForm();
-
-    try {
-        $form->process($_POST);
-
-        $result = $form->getMessage();
-    } catch (InvalidArgumentException $e) {
-        $error = $e->getMessage();
-    }
+    redirect('index');
 }
 
 ?>

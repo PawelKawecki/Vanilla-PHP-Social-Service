@@ -24,7 +24,9 @@ class LoginForm extends Form
 
         $this->sanitizeForm();
 
-        return Auth::login($this->data);
+        Auth::login($this->data);
+
+        redirect('index');
     }
 
 }

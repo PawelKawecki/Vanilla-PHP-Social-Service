@@ -26,6 +26,7 @@ services:
       - "DB_USER=root"
       - "DB_PASS=secret"
       - "DB_NAME=social_media"
+      - "ENV=docker"
 
   database:
     image: mysql:5.6
